@@ -1,0 +1,14 @@
+export const OnyxLogoTypeIcon = ({
+  size = 16,
+  className = defaultTailwindCSS,
+}: IconProps) => {
+  return (
+    <Image
+      src="/logotype-dark.png"
+      alt="Logo"
+      width={size}
+      height={size / 3}
+      className={className}
+    />
+  );
+};

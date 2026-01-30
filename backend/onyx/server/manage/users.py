@@ -366,6 +366,7 @@ def bulk_invite_users(
 ) -> int:
     """emails are string validated. If any email fails validation, no emails are
     invited and an exception is raised."""
+    logger.info(f"[INVITE DEBUG] bulk_invite_users called with emails: {emails}")
     tenant_id = get_current_tenant_id()
 
     if current_user is None:
@@ -403,12 +404,15 @@ def bulk_invite_users(
     number_of_invited_users = write_invited_users(all_emails)
 
     # send out email invitations if enabled
+    logger.info(f"[INVITE DEBUG] ENABLE_EMAIL_INVITES={ENABLE_EMAIL_INVITES}")
     if ENABLE_EMAIL_INVITES:
         try:
             for email in new_invited_emails:
+                logger.info(f"[INVITE DEBUG] Sending email to {email}")
                 send_user_email_invite(email, current_user, AUTH_TYPE)
+                logger.info(f"[INVITE DEBUG] Email sent successfully to {email}")
         except Exception as e:
-            logger.error(f"Error sending email invite to invited users: {e}")
+            logger.error(f"[INVITE DEBUG] Error sending email invite to invited users: {e}")
 
     if not MULTI_TENANT or DEV_MODE:
         return number_of_invited_users

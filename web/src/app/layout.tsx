@@ -91,6 +91,16 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+              })();
+            `,
+          }}
+        />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, interactive-widget=resizes-content"
@@ -125,8 +135,8 @@ export default async function RootLayout({
       <body className={`relative ${inter.variable} font-hanken`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <div className="text-text min-h-screen bg-background">
