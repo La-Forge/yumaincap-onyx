@@ -9,8 +9,7 @@ export default function LoginText() {
   return (
     <div className="w-full flex flex-col ">
       <Text as="p" headingH2 text05>
-        Welcome to{" "}
-        {(settings && settings?.enterpriseSettings?.application_name) || "Onyx"}
+        Welcome to YumainCap Chat
       </Text>
       <Text as="p" text03 mainUiMuted>
         Your open source AI platform for work

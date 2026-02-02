@@ -575,12 +575,11 @@ export const OnyxIcon = ({
 }: IconProps) => {
   return (
     <Image
-      src="/logo.png"
+      src="/logo.svg"
       alt="Logo"
       width={size}
       height={size}
-      className={`${className} bg-transparent`}
-      style={{ backgroundColor: 'transparent' }}
+      className={className}
     />
   );
 };
