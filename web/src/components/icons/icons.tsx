@@ -575,7 +575,7 @@ export const OnyxIcon = ({
 }: IconProps) => {
   return (
     <Image
-      src="/logo.svg"
+      src="/logo.jpg"
       alt="Logo"
       width={size}
       height={size}

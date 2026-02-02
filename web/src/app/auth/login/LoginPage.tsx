@@ -75,7 +75,7 @@ export default function LoginPage({
 
       {!hidePageRedirect && (
         <p className="text-center mt-4">
-          Don&apos;t have an account?{" "}
+          New to YumainCap Chat?{" "}
           <span
             onClick={() => {
               if (typeof window !== "undefined" && window.top) {
