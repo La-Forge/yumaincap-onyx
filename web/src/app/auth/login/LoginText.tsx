@@ -9,10 +9,10 @@ export default function LoginText() {
   return (
     <div className="w-full flex flex-col ">
       <Text as="p" headingH2 text05>
-        Welcome to YumainCap Chat
+        Bienvenue sur YumainCap Chat
       </Text>
       <Text as="p" text03 mainUiMuted>
-        Your open source AI platform for work
+        Votre plateforme IA open source pour le travail
       </Text>
     </div>
   );

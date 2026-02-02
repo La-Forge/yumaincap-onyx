@@ -75,7 +75,7 @@ export default function LoginPage({
 
       {!hidePageRedirect && (
         <p className="text-center mt-4">
-          New to YumainCap Chat?{" "}
+          Nouveau sur YumainCap Chat ?{" "}
           <span
             onClick={() => {
               if (typeof window !== "undefined" && window.top) {
@@ -86,7 +86,7 @@ export default function LoginPage({
             }}
             className="text-link font-medium cursor-pointer"
           >
-            Create an account
+            Créer un compte
           </span>
         </p>
       )}

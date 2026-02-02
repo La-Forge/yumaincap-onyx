@@ -81,10 +81,10 @@ const Page = async (props: {
         >
           <div className="w-full">
             <Text as="p" headingH2 text05>
-              {cloud ? "Complete your sign up" : "Create account"}
+              {cloud ? "Complétez votre inscription" : "Créer un compte"}
             </Text>
             <Text as="p" text03>
-              Get started with Onyx
+              Commencez avec YumainCap Chat
             </Text>
           </div>
           {cloud && authUrl && (
