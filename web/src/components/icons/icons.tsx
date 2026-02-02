@@ -579,7 +579,8 @@ export const OnyxIcon = ({
       alt="Logo"
       width={size}
       height={size}
-      className={className}
+      className={`${className} bg-transparent`}
+      style={{ backgroundColor: 'transparent' }}
     />
   );
 };
@@ -593,7 +594,8 @@ export const OnyxLogoTypeIcon = ({
       alt="Logo"
       width={size}
       height={size / 3}
-      className={className}
+      className={`${className} bg-transparent`}
+      style={{ backgroundColor: 'transparent' }}
     />
   );
 };
