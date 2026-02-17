@@ -98,16 +98,8 @@ export const ReasoningRenderer: MessageRenderer<
     "text-text-03 font-main-ui-body"
   );
 
-  if (!hasStart && !hasEnd && content.length === 0) {
-    return children({ icon: null, status: null, content: <></> });
-  }
-
-  return children({
-    icon: null,
-    status: THINKING_STATUS,
-    content: renderedContent,
-    expandedText: renderedContent,
-  });
+  // Always hide reasoning/thinking content from the user
+  return children({ icon: null, status: null, content: <></> });
 };
 
 export default ReasoningRenderer;
