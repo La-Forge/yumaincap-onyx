@@ -56,3 +56,32 @@ USE_SEMANTIC_KEYWORD_EXPANSIONS_BASIC_SEARCH = (
     os.environ.get("USE_SEMANTIC_KEYWORD_EXPANSIONS_BASIC_SEARCH", "false").lower()
     == "true"
 )
+
+# =============================================================================
+# Guardrails Configuration
+# =============================================================================
+# Enable/disable guardrails (default: enabled)
+GUARDRAILS_ENABLED = os.environ.get("GUARDRAILS_ENABLED", "true").lower() == "true"
+
+# Enable/disable security instructions in system prompt (default: enabled)
+GUARDRAILS_SECURITY_PROMPT_ENABLED = (
+    os.environ.get("GUARDRAILS_SECURITY_PROMPT_ENABLED", "true").lower() == "true"
+)
+
+# Comma-separated list of custom phrases to block
+GUARDRAIL_BLOCKED_PHRASES = os.environ.get("GUARDRAIL_BLOCKED_PHRASES", "")
+
+# Log guardrail violations (default: enabled)
+GUARDRAIL_LOG_VIOLATIONS = (
+    os.environ.get("GUARDRAIL_LOG_VIOLATIONS", "true").lower() == "true"
+)
+
+# Block on high-risk prompt injection attempts (default: enabled)
+GUARDRAIL_BLOCK_HIGH_RISK = (
+    os.environ.get("GUARDRAIL_BLOCK_HIGH_RISK", "true").lower() == "true"
+)
+
+# Block on medium-risk prompt injection attempts (default: disabled)
+GUARDRAIL_BLOCK_MEDIUM_RISK = (
+    os.environ.get("GUARDRAIL_BLOCK_MEDIUM_RISK", "false").lower() == "true"
+)
