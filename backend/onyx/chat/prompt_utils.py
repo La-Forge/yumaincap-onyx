@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from onyx.db.persona import get_default_behavior_persona
 from onyx.db.user_file import calculate_user_files_token_count
 from onyx.file_store.models import FileDescriptor
+from onyx.guardrails.security_prompt import SECURITY_SYSTEM_PROMPT
 from onyx.prompts.chat_prompts import CITATION_REMINDER
 from onyx.prompts.chat_prompts import CODE_BLOCK_MARKDOWN
 from onyx.prompts.chat_prompts import DEFAULT_SYSTEM_PROMPT
@@ -138,6 +139,7 @@ def build_system_prompt(
     should_cite_documents: bool = False,
     include_all_guidance: bool = False,
     open_ai_formatting_enabled: bool = False,
+    include_security_guardrails: bool = True,
 ) -> str:
     """Should only be called with the default behavior system prompt.
     If the user has replaced the default behavior prompt with their custom agent prompt, do not call this function.
@@ -184,6 +186,9 @@ def build_system_prompt(
             + GENERATE_IMAGE_GUIDANCE
             + MEMORY_GUIDANCE
         )
+        # Add security guardrails
+        if include_security_guardrails:
+            system_prompt += SECURITY_SYSTEM_PROMPT
         return system_prompt
 
     if tools:
@@ -228,5 +233,9 @@ def build_system_prompt(
 
         if has_memory or include_all_guidance:
             system_prompt += MEMORY_GUIDANCE
+
+    # Add security guardrails to protect against prompt injection and data leakage
+    if include_security_guardrails:
+        system_prompt += SECURITY_SYSTEM_PROMPT
 
     return system_prompt
