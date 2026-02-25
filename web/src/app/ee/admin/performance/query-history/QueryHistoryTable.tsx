@@ -84,7 +84,7 @@ function QueryHistoryTableRow({
       <td className="w-0 p-0">
         <Link
           href={
-            `/ee/admin/performance/query-history/${chatSessionMinimal.id}` as Route
+            `/admin/performance/query-history/${chatSessionMinimal.id}` as Route
           }
           className="absolute w-full h-full left-0 top-0"
         ></Link>

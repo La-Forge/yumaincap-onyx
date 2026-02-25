@@ -30,7 +30,6 @@ export const config = {
     // These are ONLY the EE-specific routes that should be rewritten
     "/admin/groups/:path*",
     "/admin/performance/usage/:path*",
-    "/admin/performance/query-history/:path*",
     "/admin/theme/:path*",
     "/admin/performance/custom-analytics/:path*",
     "/admin/standard-answer/:path*",
@@ -45,7 +44,6 @@ export const config = {
 const EE_ROUTES = [
   "/admin/groups",
   "/admin/performance/usage",
-  "/admin/performance/query-history",
   "/admin/theme",
   "/admin/performance/custom-analytics",
   "/admin/standard-answer",

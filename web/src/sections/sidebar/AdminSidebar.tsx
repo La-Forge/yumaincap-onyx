@@ -243,38 +243,38 @@ const collections = (
             },
           ],
         },
-        ...(enableEnterprise
-          ? [
-              {
-                name: "Performance",
-                items: [
+        {
+          name: "Performance",
+          items: [
+            ...(enableEnterprise
+              ? [
                   {
                     name: "Usage Statistics",
                     icon: SvgActivity,
                     link: "/admin/performance/usage",
                   },
-                  ...(settings?.settings.query_history_type !== "disabled"
-                    ? [
-                        {
-                          name: "Query History",
-                          icon: SvgServer,
-                          link: "/admin/performance/query-history",
-                        },
-                      ]
-                    : []),
-                  ...(!enableCloud && customAnalyticsEnabled
-                    ? [
-                        {
-                          name: "Custom Analytics",
-                          icon: SvgBarChart,
-                          link: "/admin/performance/custom-analytics",
-                        },
-                      ]
-                    : []),
-                ],
-              },
-            ]
-          : []),
+                ]
+              : []),
+            ...(settings?.settings.query_history_type !== "disabled"
+              ? [
+                  {
+                    name: "Query History",
+                    icon: SvgServer,
+                    link: "/admin/performance/query-history",
+                  },
+                ]
+              : []),
+            ...(!enableCloud && customAnalyticsEnabled && enableEnterprise
+              ? [
+                  {
+                    name: "Custom Analytics",
+                    icon: SvgBarChart,
+                    link: "/admin/performance/custom-analytics",
+                  },
+                ]
+              : []),
+          ],
+        },
         {
           name: "Settings",
           items: [
