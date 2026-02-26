@@ -1,5 +1,11 @@
-from onyx.guardrails.output_filter import OutputGuardrail
-from onyx.guardrails.input_filter import InputGuardrail
-from onyx.guardrails.config import GuardrailConfig
+from onyx.guardrails.llama_guard import LlamaGuard
+from onyx.guardrails.llama_guard import LlamaGuardResult
+from onyx.guardrails.middleware import apply_input_guardrail
+from onyx.guardrails.middleware import apply_output_guardrail
 
-__all__ = ["OutputGuardrail", "InputGuardrail", "GuardrailConfig"]
+__all__ = [
+    "LlamaGuard",
+    "LlamaGuardResult",
+    "apply_input_guardrail",
+    "apply_output_guardrail",
+]
