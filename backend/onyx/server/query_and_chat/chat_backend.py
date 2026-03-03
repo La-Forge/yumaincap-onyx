@@ -36,6 +36,7 @@ from onyx.chat.stop_signal_checker import set_fence
 from onyx.configs.app_configs import WEB_DOMAIN
 from onyx.configs.chat_configs import GUARDRAILS_ENABLED
 from onyx.guardrails.middleware import apply_input_guardrail
+from onyx.guardrails.middleware import apply_output_guardrail
 from onyx.configs.chat_configs import HARD_DELETE_CHATS
 from onyx.configs.constants import MessageType
 from onyx.configs.constants import MilestoneRecordType
@@ -649,6 +650,20 @@ def handle_send_chat_message(
             )
             result = gather_stream_full(packets, state_container)
             # Note: LLM cost tracking is now handled in multi_llm.py
+
+            # Output guardrail on the complete response (non-streaming)
+            if GUARDRAILS_ENABLED and result.answer:
+                is_safe, msg = apply_output_guardrail(
+                    user_message=chat_message_req.message or "",
+                    assistant_message=result.answer,
+                )
+                if not is_safe:
+                    logger.warning(
+                        "Output guardrail blocked response for user %s",
+                        user.email if user else "anonymous",
+                    )
+                    result.answer = msg
+
             return result
 
     # Streaming path, normal Onyx UI behavior
