@@ -93,12 +93,14 @@ class LlamaGuard:
         from onyx.llm.litellm_singleton import litellm
 
         try:
+            from onyx.configs.chat_configs import LLAMA_GUARD_TIMEOUT
+
             kwargs: dict = dict(
                 model=self.model,
                 messages=self._build_messages(messages),
                 temperature=0,
                 stream=False,
-                timeout=15,
+                timeout=LLAMA_GUARD_TIMEOUT,
             )
             if self.api_key:
                 kwargs["api_key"] = self.api_key

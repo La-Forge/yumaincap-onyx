@@ -28,6 +28,7 @@ from starlette.types import Lifespan
 
 from onyx import __version__
 from onyx.auth.schemas import UserCreate
+from onyx.guardrails.middleware import GuardrailViolationError
 from onyx.auth.schemas import UserRead
 from onyx.auth.schemas import UserUpdate
 from onyx.auth.users import auth_backend
@@ -117,6 +118,7 @@ from onyx.server.middleware.rate_limiting import get_auth_rate_limiters
 from onyx.server.middleware.rate_limiting import setup_auth_limiter
 from onyx.server.onyx_api.ingestion import router as onyx_api_router
 from onyx.server.pat.api import router as pat_router
+from onyx.server.analytics.api import router as analytics_router
 from onyx.server.query_and_chat.chat_backend import router as chat_router
 from onyx.server.query_history.api import router as query_history_router
 from onyx.server.query_and_chat.query_backend import (
@@ -312,6 +314,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         await close_auth_limiter()
 
 
+def guardrail_violation_handler(request: Request, exc: Exception) -> JSONResponse:
+    detail = exc.detail if isinstance(exc, HTTPException) else str(exc)
+    logger.warning(f"Guardrail violation blocked request: {detail}")
+    return JSONResponse(status_code=422, content={"detail": detail})
+
+
 def log_http_error(request: Request, exc: Exception) -> JSONResponse:
     status_code = getattr(exc, "status_code", 500)
 
@@ -356,6 +364,7 @@ def get_application(lifespan_override: Lifespan | None = None) -> FastAPI:
     else:
         logger.debug("Sentry DSN not provided, skipping Sentry initialization")
 
+    application.add_exception_handler(GuardrailViolationError, guardrail_violation_handler)
     application.add_exception_handler(status.HTTP_400_BAD_REQUEST, log_http_error)
     application.add_exception_handler(status.HTTP_401_UNAUTHORIZED, log_http_error)
     application.add_exception_handler(status.HTTP_403_FORBIDDEN, log_http_error)
@@ -418,6 +427,7 @@ def get_application(lifespan_override: Lifespan | None = None) -> FastAPI:
     include_router_with_global_prefix_prepended(application, mcp_router)
     include_router_with_global_prefix_prepended(application, mcp_admin_router)
     include_router_with_global_prefix_prepended(application, query_history_router)
+    include_router_with_global_prefix_prepended(application, analytics_router)
 
     if AUTH_TYPE != AuthType.DISABLED:
         include_router_with_global_prefix_prepended(application, pat_router)

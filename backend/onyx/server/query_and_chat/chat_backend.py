@@ -37,6 +37,7 @@ from onyx.configs.app_configs import WEB_DOMAIN
 from onyx.configs.chat_configs import GUARDRAILS_ENABLED
 from onyx.guardrails.middleware import apply_input_guardrail
 from onyx.guardrails.middleware import apply_output_guardrail
+from onyx.guardrails.middleware import GuardrailViolationError
 from onyx.configs.chat_configs import HARD_DELETE_CHATS
 from onyx.configs.constants import MessageType
 from onyx.configs.constants import MilestoneRecordType
@@ -505,10 +506,7 @@ def handle_new_chat_message(
             logger.warning(
                 f"Guardrail blocked message from user {user.email if user else 'anonymous'}"
             )
-            raise HTTPException(
-                status_code=400,
-                detail=rejection_message
-            )
+            raise GuardrailViolationError(detail=rejection_message)
 
     if not chat_message_req.message and not chat_message_req.use_existing_user_message:
         raise HTTPException(status_code=400, detail="Empty chat message is invalid")
@@ -599,10 +597,7 @@ def handle_send_chat_message(
             logger.warning(
                 f"Guardrail blocked message from user {user.email if user else 'anonymous'}"
             )
-            raise HTTPException(
-                status_code=400,
-                detail=rejection_message
-            )
+            raise GuardrailViolationError(detail=rejection_message)
 
     tenant_id = get_current_tenant_id()
     mt_cloud_telemetry(

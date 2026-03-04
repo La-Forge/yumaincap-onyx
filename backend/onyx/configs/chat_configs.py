@@ -70,9 +70,10 @@ GUARDRAILS_SECURITY_PROMPT_ENABLED = (
 
 # Llama Guard model identifier (LiteLLM format, defaults to local Ollama)
 LLAMA_GUARD_MODEL = os.environ.get(
-    "LLAMA_GUARD_MODEL", "ollama/llama-guard3:1b"
+    "LLAMA_GUARD_MODEL", "ollama/llama-guard3"
 )
 LLAMA_GUARD_API_KEY = os.environ.get("LLAMA_GUARD_API_KEY", "")
 LLAMA_GUARD_API_BASE = os.environ.get(
     "LLAMA_GUARD_API_BASE", "http://localhost:11434"
 )
+LLAMA_GUARD_TIMEOUT = int(os.environ.get("LLAMA_GUARD_TIMEOUT", "60"))

@@ -7,10 +7,26 @@ content classification for both input and output filtering.
 
 import os
 
+from fastapi import HTTPException
+
 from onyx.guardrails.llama_guard import LlamaGuard, LlamaGuardResult
 from onyx.utils.logger import setup_logger
 
 logger = setup_logger()
+
+_REJECTION_MESSAGE = (
+    "I'm sorry, but I cannot process this request as it may involve "
+    "sensitive information or violates security policies. "
+    "Please rephrase your question or contact an administrator."
+)
+
+
+class GuardrailViolationError(HTTPException):
+    """Raised when a guardrail blocks a message (input or output)."""
+
+    def __init__(self, detail: str = _REJECTION_MESSAGE) -> None:
+        super().__init__(status_code=422, detail=detail)
+
 
 # ---------------------------------------------------------------------------
 # Singleton Llama Guard instance
@@ -39,12 +55,6 @@ def _get_llama_guard() -> LlamaGuard:
 # ---------------------------------------------------------------------------
 # Public convenience functions (same signatures used by chat_backend.py)
 # ---------------------------------------------------------------------------
-
-_REJECTION_MESSAGE = (
-    "I'm sorry, but I cannot process this request as it may involve "
-    "sensitive information or violates security policies. "
-    "Please rephrase your question or contact an administrator."
-)
 
 
 def apply_input_guardrail(text: str) -> tuple[bool, str]:

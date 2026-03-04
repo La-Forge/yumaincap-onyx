@@ -246,15 +246,11 @@ const collections = (
         {
           name: "Performance",
           items: [
-            ...(enableEnterprise
-              ? [
-                  {
-                    name: "Usage Statistics",
-                    icon: SvgActivity,
-                    link: "/admin/performance/usage",
-                  },
-                ]
-              : []),
+            {
+              name: "Usage Statistics",
+              icon: SvgActivity,
+              link: "/admin/performance/usage",
+            },
             ...(settings?.settings.query_history_type !== "disabled"
               ? [
                   {
