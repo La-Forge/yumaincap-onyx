@@ -81,6 +81,8 @@ from onyx.tools.models import SearchToolUsage
 from onyx.tools.tool_constructor import construct_tools
 from onyx.tools.tool_constructor import CustomToolConfig
 from onyx.tools.tool_constructor import SearchToolConfig
+from onyx.configs.chat_configs import GUARDRAILS_ENABLED
+from onyx.guardrails.middleware import apply_output_guardrail
 from onyx.utils.logger import setup_logger
 from onyx.utils.long_term_log import LongTermLogger
 from onyx.utils.telemetry import mt_cloud_telemetry
@@ -742,6 +744,10 @@ def llm_loop_completion_handle(
             )
         else:
             final_answer = "The generation was stopped by the user."
+
+    # Apply output guardrail to filter sensitive data from LLM response
+    if GUARDRAILS_ENABLED and completed_normally:
+        final_answer = apply_output_guardrail(final_answer)
 
     save_chat_turn(
         message_text=final_answer,

@@ -177,6 +177,20 @@ export async function* sendMessage({
   });
 
   if (!response.ok) {
+    if (response.status === 422) {
+      // Guardrail violation: render the rejection as a normal bot message
+      let detail = "This request cannot be processed due to content policy.";
+      try {
+        const errorBody = await response.json();
+        if (errorBody.detail) detail = errorBody.detail;
+      } catch {}
+      const placement = { turn_index: 0 };
+      yield { placement, obj: { type: "message_start", id: "guardrail-block", content: "", final_documents: null } } as Packet;
+      yield { placement, obj: { type: "message_delta", content: detail } } as Packet;
+      yield { placement, obj: { type: "message_end" } } as Packet;
+      yield { placement, obj: { type: "stop" } } as Packet;
+      return;
+    }
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 

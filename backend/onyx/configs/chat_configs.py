@@ -56,3 +56,24 @@ USE_SEMANTIC_KEYWORD_EXPANSIONS_BASIC_SEARCH = (
     os.environ.get("USE_SEMANTIC_KEYWORD_EXPANSIONS_BASIC_SEARCH", "false").lower()
     == "true"
 )
+
+# =============================================================================
+# Guardrails Configuration (Llama Guard via LiteLLM)
+# =============================================================================
+# Enable/disable guardrails (default: enabled)
+GUARDRAILS_ENABLED = os.environ.get("GUARDRAILS_ENABLED", "true").lower() == "true"
+
+# Enable/disable security instructions in system prompt (default: enabled)
+GUARDRAILS_SECURITY_PROMPT_ENABLED = (
+    os.environ.get("GUARDRAILS_SECURITY_PROMPT_ENABLED", "true").lower() == "true"
+)
+
+# Llama Guard model identifier (LiteLLM format, defaults to local Ollama)
+LLAMA_GUARD_MODEL = os.environ.get(
+    "LLAMA_GUARD_MODEL", "ollama/llama-guard3"
+)
+LLAMA_GUARD_API_KEY = os.environ.get("LLAMA_GUARD_API_KEY", "")
+LLAMA_GUARD_API_BASE = os.environ.get(
+    "LLAMA_GUARD_API_BASE", "http://localhost:11434"
+)
+LLAMA_GUARD_TIMEOUT = int(os.environ.get("LLAMA_GUARD_TIMEOUT", "60"))
